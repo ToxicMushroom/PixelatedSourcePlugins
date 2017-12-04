@@ -1,0 +1,93 @@
+name: PixelCore
+description: The core of pixelnetwork
+main: be.pixelnetwork.core.Main
+version: 0.3
+author: ToxicMushroom
+depend: [Vault]
+commands:
+  fly:
+    description: lets you Commandfly.
+  gm:
+    description: changes gamemode.
+  freeze:
+    description: stops a player from moving.
+  nightvision:
+    aliases: nv
+    description: gives you nightvision.
+  gmc:
+    description: changes a player's gamemode to creative
+  gms:
+    description: changes a player's gamemode to survival
+  gmsp:
+    description: changes a player's gamemode to spectator
+  gma:
+    description: changes a player's gamemode to adventure
+  vanish:
+    aliases: v
+    description: vanished you
+  p:
+    description: punish
+  tp:
+    description: Commandstp to a player
+  tpa:
+    description: tpa to a player
+  tpyes:
+    description: accept a tpa
+  tpdeny:
+    description: deny a tpa
+  list:
+    description: does nothing
+  help:
+    description: shows help
+  heal:
+    description: heal a player
+  eat:
+    description: feed a player
+  kill:
+    description: kill a player
+  suicide:
+    description: just don't do it
+  ext:
+    description: extinguishe fire
+    aliases: extinguish
+  tphere:
+    description: Commandstp a player to you
+  god:
+    description: toggle god mode
+  craft:
+    description: opens a workbench
+  invsee:
+    description: view an inventory from a player
+  armorsee:
+    description: view the armor from a player
+  more:
+    description: set the amount of the item in your hand to 64
+  top:
+    description: teleports you to the highest solid block on your loc
+  thru:
+    description: teleport easy thru walls
+  up:
+    description: we gotta go up
+  time:
+    description: a fancy time menu ;3
+  dry:
+    description: stops rain/storm
+  rain:
+    description: set the rain/snow o
+  storm:
+    description: enables rain and thunder
+  discord:
+  twitter:
+  yt:
+    aliases: youtube
+    descriptiion: shows a link to our yt channel
+  site:
+    aliases: info, forum
+  setspawn:
+  spawn:
+  setwarp:
+  warp:
+  speed:
+  nickname:
+    description: nickname yourself or your slaves
+    aliases: nick
