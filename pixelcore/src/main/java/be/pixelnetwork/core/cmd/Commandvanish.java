@@ -1,6 +1,7 @@
 package be.pixelnetwork.core.cmd;
 
 import be.pixelnetwork.core.Helpers;
+import be.pixelnetwork.core.databases.MySQL;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 public class Commandvanish {
 
-    public static ArrayList<Player> vanished = new ArrayList<Player>();
+    public static ArrayList<Player> vanished = new ArrayList<>();
     public void execute(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
@@ -25,6 +26,7 @@ public class Commandvanish {
                     p.setAllowFlight(true);
                     p.setFlying(true);
                     vanished.add(p);
+                    MySQL.addVanishedPlayer(p);
                     p.sendMessage(Helpers.prefix + Helpers.Colors(" &3you are now hidden"));
                 } else {
                     for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -33,6 +35,7 @@ public class Commandvanish {
                     p.setAllowFlight(false);
                     p.setFlying(false);
                     vanished.remove(p);
+                    MySQL.removeVanishedPlayer(p);
                     p.sendMessage(Helpers.prefix + Helpers.Colors(" &3your are now unhidden"));
                 }
             }

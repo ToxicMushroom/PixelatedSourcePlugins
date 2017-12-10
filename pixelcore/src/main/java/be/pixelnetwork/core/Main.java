@@ -1,6 +1,7 @@
 package be.pixelnetwork.core;
 
 import be.pixelnetwork.core.databases.MongoDB;
+import be.pixelnetwork.core.databases.MySQL;
 import be.pixelnetwork.core.events.*;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -11,6 +12,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -20,19 +22,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main extends JavaPlugin implements Listener, TabCompleter {
-    private ConfigMangager cfmg;
     private org.bukkit.permissions.Permission fly = new org.bukkit.permissions.Permission("PixelNetwork.*");
     private static Main plugin;
     private PluginManager pm = Bukkit.getPluginManager();
     private static Permission perms = null;
     private static Chat chat = null;
+    private FileConfiguration config = getConfig();
+    public static MySQL mySQL;
 
     public static Main getInstance() {
         return plugin;
     }
 
     private void loadConfigManager() {
-        cfmg = new ConfigMangager();
+        ConfigMangager cfmg = new ConfigMangager();
         cfmg.setup();
     }
 
@@ -70,8 +73,6 @@ public class Main extends JavaPlugin implements Listener, TabCompleter {
         loadConfigManager();
         setupPermission();
         setupChat();
-        MongoDB mongo = new MongoDB();
-        mongo.mongoConnect("mongodb://root:RfjIfYDkgD6VOYDA@mongodb-shard-00-00-kl7ns.mongodb.net:27017,mongodb-shard-00-01-kl7ns.mongodb.net:27017,mongodb-shard-00-02-kl7ns.mongodb.net:27017/admin?replicaSet=MongoDB-shard-0&ssl=true");
         CommandHandler commands = new CommandHandler(this);
         getCommand("fly").setExecutor(commands);
         getCommand("freeze").setExecutor(commands);
@@ -113,7 +114,7 @@ public class Main extends JavaPlugin implements Listener, TabCompleter {
         getCommand("twitter").setExecutor(commands);
         getCommand("yt").setExecutor(commands);
         getCommand("nick").setExecutor(commands);
-
+        mySQL = new MySQL(config.getString("mysql.ipadress"), config.getString("mysql.database"), config.getString("mysql.username"), config.getString("mysql.password"));
         pm.registerEvents(this, this);
         pm.registerEvents(new DamageEvent(this), this);
         pm.registerEvents(new InventoryListener(this), this);
@@ -122,8 +123,9 @@ public class Main extends JavaPlugin implements Listener, TabCompleter {
         pm.registerEvents(new VapeListener(this), this);
         pm.registerEvents(new FireSpreadListener(this), this);
         pm.registerEvents(new ChatListener(this), this);
-
+        pm.registerEvents(new DisconnectListener(this), this);
         pm.addPermission(fly);
+        mySQL.update("CREATE TABLE IF NOT EXISTS vanished (name varchar(32), UUID varchar(256), vanished varchar(10));");
         getLogger().info(ChatColor.DARK_PURPLE + "----||-=+PIXELCORE ENABLED+=-||----");
     }
 
