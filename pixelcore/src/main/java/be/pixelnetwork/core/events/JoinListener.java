@@ -3,6 +3,7 @@ package be.pixelnetwork.core.events;
 import be.pixelnetwork.core.Helpers;
 import be.pixelnetwork.core.Main;
 import be.pixelnetwork.core.cmd.Commandvanish;
+import be.pixelnetwork.core.scoreboards.Hub;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
@@ -64,5 +65,7 @@ public class JoinListener implements Listener{
             x.printStackTrace();
         }
         connection.sendPacket(list);
+        Hub hub = new Hub();
+        hub.addhub(p);
     }
 }
