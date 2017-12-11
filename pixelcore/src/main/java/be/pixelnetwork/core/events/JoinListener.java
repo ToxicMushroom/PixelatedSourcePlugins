@@ -36,6 +36,7 @@ public class JoinListener implements Listener{
             e.getPlayer().hidePlayer(va);
         }
         Player p = e.getPlayer();
+        p.chat("/spawn");
         String pn = p.getName();
         config.set("godlist." + p.getUniqueId(), false);
         saveConfig();

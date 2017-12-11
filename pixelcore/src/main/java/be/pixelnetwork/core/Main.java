@@ -1,6 +1,5 @@
 package be.pixelnetwork.core;
 
-import be.pixelnetwork.core.databases.MongoDB;
 import be.pixelnetwork.core.databases.MySQL;
 import be.pixelnetwork.core.events.*;
 import net.milkbowl.vault.chat.Chat;

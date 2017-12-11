@@ -41,7 +41,6 @@ public class Hub {
         obj.getScore(ChatColor.DARK_AQUA + "").setScore(0);
         Score rank = obj.getScore(Helpers.Colors("Rank: " + Main.getChat().getGroupPrefix(p.getWorld(), Main.getPermission().getPrimaryGroup(p))));
         rank.setScore(3);
-        board.getTeam("players").setSuffix(Helpers.Colors("&6" + "just keis"));
         p.setScoreboard(board);
     }
 
