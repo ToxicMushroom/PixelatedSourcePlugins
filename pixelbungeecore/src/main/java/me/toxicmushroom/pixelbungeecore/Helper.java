@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class Helper {
+
+    public static String permission = "PixelNetwork";
     private static HashMap<UUID, UUID> conversations = new HashMap();
     public static String prefix = "&f[&b&lP&6&lS&f]";
     public static BaseComponent[] Colors(String colorize) {
