@@ -23,7 +23,13 @@ public class Commandstafflist extends Command {
             for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
                 String primarygroup = MySQL.getPrimairyGroup(p);
                 player.sendMessage(Helper.Colors(Helper.prefix + " &b&l-=+ Online Staff +=-"));
-                if (p.isConnected() && rankandcolors.get(primarygroup) != null) {
+                if (MySQL.isVanishedPlayer(p)) {
+                    if (player.hasPermission(Helper.permission + "vanish.see")) {
+                        if (p.isConnected() && rankandcolors.get(primarygroup) != null) {
+                            player.sendMessage(Helper.Colors(rankandcolors.get(primarygroup) + primarygroup + " &r" + p.getName() + " &6in: " + p.getServer().getInfo().getName()));
+                        }
+                    }
+                } else {
                     player.sendMessage(Helper.Colors(rankandcolors.get(primarygroup) + primarygroup + " &r" + p.getName() + " &6in: " + p.getServer().getInfo().getName()));
                 }
             }
