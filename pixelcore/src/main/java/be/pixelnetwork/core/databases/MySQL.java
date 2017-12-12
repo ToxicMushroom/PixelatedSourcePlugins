@@ -12,18 +12,23 @@ public class MySQL {
     private String PASSWORD;
     private Connection con;
 
-    public MySQL(String host, String database, String user, String password) {
-        this.HOST = host;
-        this.DATABASE = database;
-        this.USER = user;
-        this.PASSWORD = password;
-        connect();
-    }
 
-    private void connect() {
+    public void connect(String host, String database, String user, String password) {
+        HOST = host;
+        DATABASE = database;
+        USER = user;
+        PASSWORD = password;
         try {
             this.con = DriverManager.getConnection("jdbc:mysql://" + this.HOST + ":3306/" + this.DATABASE + "?autoReconnect=true",
                     this.USER, this.PASSWORD);
+            System.out.println("[MySQL] has connected");
+        } catch (SQLException e) {
+            System.out.println("[MySQL] did not connect error: " + e.getMessage());
+        }
+    }
+    private void connect() {
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://" + HOST + ":3306/" + DATABASE + "?autoReconnect=true", USER, PASSWORD);
             System.out.println("[MySQL] has connected");
         } catch (SQLException e) {
             System.out.println("[MySQL] did not connect error: " + e.getMessage());

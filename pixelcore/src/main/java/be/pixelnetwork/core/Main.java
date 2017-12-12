@@ -27,7 +27,7 @@ public class Main extends JavaPlugin implements Listener, TabCompleter {
     private static Permission perms = null;
     private static Chat chat = null;
     private FileConfiguration config = getConfig();
-    public static MySQL mySQL;
+    public static MySQL mySQL = new MySQL();
 
     public static Main getInstance() {
         return plugin;
@@ -113,7 +113,7 @@ public class Main extends JavaPlugin implements Listener, TabCompleter {
         getCommand("twitter").setExecutor(commands);
         getCommand("yt").setExecutor(commands);
         getCommand("nick").setExecutor(commands);
-        mySQL = new MySQL(config.getString("mysql.ipadress"), config.getString("mysql.database"), config.getString("mysql.username"), config.getString("mysql.password"));
+        mySQL.connect(config.getString("mysql.ipadress"), config.getString("mysql.database"), config.getString("mysql.username"), config.getString("mysql.password"));
         pm.registerEvents(this, this);
         pm.registerEvents(new DamageEvent(this), this);
         pm.registerEvents(new InventoryListener(this), this);
@@ -124,7 +124,7 @@ public class Main extends JavaPlugin implements Listener, TabCompleter {
         pm.registerEvents(new ChatListener(this), this);
         pm.registerEvents(new DisconnectListener(this), this);
         pm.addPermission(fly);
-        mySQL.update("CREATE TABLE IF NOT EXISTS vanished (name varchar(32), UUID varchar(256), vanished varchar(10));");
+        mySQL.update("CREATE TABLE IF NOT EXISTS vanished (name varchar(32), UUID varchar(256));");
         getLogger().info(ChatColor.DARK_PURPLE + "----||-=+PIXELCORE ENABLED+=-||----");
     }
 
