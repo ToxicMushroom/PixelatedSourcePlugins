@@ -6,6 +6,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -38,5 +39,23 @@ public class Helper {
                 staffGroupNames.put(s, Config.configuration.getString("staffgroupcolors." + s));
             else PixelCore.getInstance().getLogger().info("error: code-69");
         }
+    }
+
+    public static String arrayToString(ArrayList<String> toconvert) {
+        StringBuilder toreturn = new StringBuilder();
+        for (String s : toconvert) {
+            toreturn.append(s);
+        }
+        return toreturn.toString();
+    }
+
+    public static String stringlistToString(String[] toconvert, int offset) {
+        StringBuilder toreturn = new StringBuilder();
+        int i = 0;
+        for (String s : toconvert) {
+            if (offset <= i) toreturn.append(s).append(" ");
+            i++;
+        }
+        return toreturn.toString();
     }
 }

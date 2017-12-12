@@ -35,7 +35,7 @@ public class Hub {
         players.addEntry(ChatColor.DARK_AQUA + "");
         players.setPrefix(ChatColor.GOLD + "players: ");
         if (serverstats != null)
-            players.setSuffix(ChatColor.YELLOW + serverstats.getJSONObject("players").get("now").toString() + "0/100");
+            players.setSuffix(ChatColor.YELLOW + serverstats.getJSONObject("players").get("now").toString() + "/100");
         else
             players.setSuffix(ChatColor.YELLOW + "r.i.p");
         obj.getScore(ChatColor.DARK_AQUA + "").setScore(0);
@@ -54,7 +54,7 @@ public class Hub {
                     e.printStackTrace();
                 }
                 if (serverstats != null)
-                    players.setSuffix(ChatColor.YELLOW + serverstats.getJSONObject("players").get("now").toString() + "0/100");
+                    players.setSuffix(ChatColor.YELLOW + serverstats.getJSONObject("players").get("now").toString() + "/100");
                 else
                     players.setSuffix(ChatColor.YELLOW + "r.i.p");
             }
