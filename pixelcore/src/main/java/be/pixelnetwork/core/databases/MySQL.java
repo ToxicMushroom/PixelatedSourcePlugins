@@ -69,10 +69,10 @@ public class MySQL {
     }
 
     public static void addVanishedPlayer(Player p) {
-        Main.mySQL.update("INSERT INTO vanished (name, UUID), ('" + p.getName() + "', '" + p.getUniqueId().toString() + "')");
+        Main.mySQL.update("INSERT INTO vanished (name, UUID) VALUES ('" + p.getName() + "', '" + p.getUniqueId().toString() + "')");
     }
     public static void removeVanishedPlayer(Player p) {
-        Main.mySQL.update("DELETE FROM vanished WHERE UUID= '" + p.getUniqueId().toString() +"'");
+        Main.mySQL.update("DELETE FROM vanished WHERE UUID= '" + p.getUniqueId().toString() + "';");
     }
     public static boolean isVanishedPlayer(Player p) {
         ResultSet rs = Main.mySQL.query("SELECT FROM vanished WHERE UUID= '" + p.getUniqueId().toString() + "'");
