@@ -2,21 +2,21 @@ package be.pixelnetwork.core.scoreboards;
 
 import be.pixelnetwork.core.Helpers;
 import be.pixelnetwork.core.Main;
-import org.json.JSONObject;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.*;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
 public class Hub {
+    private JSONObject serverstats = null;
 
     public void addhub(Player p) {
-        JSONObject serverstats = null;
         try {
             serverstats = Helpers.readJsonFromUrl("https://mcapi.us/server/status?ip=mc.dhcnet.be&port=25565");
         } catch (IOException e) {
@@ -42,9 +42,30 @@ public class Hub {
         Score rank = obj.getScore(Helpers.Colors("Rank: " + Main.getChat().getGroupPrefix(p.getWorld(), Main.getPermission().getPrimaryGroup(p))));
         rank.setScore(3);
         p.setScoreboard(board);
+
+
+        new BukkitRunnable() {
+            public void run() {
+                if (!p.isOnline())
+                    cancel();
+                try {
+                    serverstats = Helpers.readJsonFromUrl("https://mcapi.us/server/status?ip=mc.dhcnet.be&port=25565");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (serverstats != null)
+                    players.setSuffix(ChatColor.YELLOW + serverstats.getJSONObject("players").get("now").toString() + "0/100");
+                else
+                    players.setSuffix(ChatColor.YELLOW + "r.i.p");
+            }
+        }.runTaskTimerAsynchronously(Main.getInstance(), 0, 10);
     }
 
     public static String Colors(String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
+    }
+
+    public void stopScheduler(int i) {
+        Bukkit.getServer().getScheduler().cancelTask(i);
     }
 }
