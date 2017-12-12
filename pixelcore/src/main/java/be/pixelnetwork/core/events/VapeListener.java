@@ -16,12 +16,12 @@ public class VapeListener implements Listener, PluginMessageListener {
     public void onJoin(PlayerJoinEvent event) {
         event.getPlayer().sendMessage("§8 §8 §1 §3 §3 §7 §8 ");
     }
+
     public void onPluginMessageReceived(String channel, Player p, byte[] data) {
         String bandata;
         try {
             bandata = new String(data);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             bandata = "";
         }
         if (bandata.equalsIgnoreCase("")) return;
