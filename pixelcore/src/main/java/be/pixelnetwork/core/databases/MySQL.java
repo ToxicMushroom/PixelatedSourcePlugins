@@ -26,6 +26,7 @@ public class MySQL {
             System.out.println("[MySQL] did not connect error: " + e.getMessage());
         }
     }
+
     private void connect() {
         try {
             con = DriverManager.getConnection("jdbc:mysql://" + HOST + ":3306/" + DATABASE + "?autoReconnect=true", USER, PASSWORD);
@@ -56,6 +57,7 @@ public class MySQL {
             System.err.println(e);
         }
     }
+
     public ResultSet query(String qry) {
         ResultSet rs = null;
         try {
@@ -71,9 +73,11 @@ public class MySQL {
     public static void addVanishedPlayer(Player p) {
         Main.mySQL.update("INSERT INTO vanished (name, UUID) VALUES ('" + p.getName() + "', '" + p.getUniqueId().toString() + "')");
     }
+
     public static void removeVanishedPlayer(Player p) {
         Main.mySQL.update("DELETE FROM vanished WHERE UUID= '" + p.getUniqueId().toString() + "';");
     }
+
     public static boolean isVanishedPlayer(Player p) {
         ResultSet rs = Main.mySQL.query("SELECT FROM vanished WHERE UUID= '" + p.getUniqueId().toString() + "'");
         boolean ivp = false;
