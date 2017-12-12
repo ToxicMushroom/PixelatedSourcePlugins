@@ -8,12 +8,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Commandmore {
+
     public void execute(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (label.equalsIgnoreCase("more")) {
                 if (p.hasPermission(Helpers.perm + "more")) {
-                    if (p.getItemInHand().getType() != Material.AIR ) {
+                    if (p.getItemInHand().getType() != Material.AIR) {
                         ItemStack hand = p.getItemInHand();
                         hand.setAmount(64);
                         p.setItemInHand(hand);
