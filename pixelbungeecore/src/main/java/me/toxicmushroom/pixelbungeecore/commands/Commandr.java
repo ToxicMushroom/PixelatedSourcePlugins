@@ -23,7 +23,7 @@ public class Commandr extends Command {
                     player.sendMessage(Helper.Colors(Helper.prefix + " &cThere is nobody to reply to."));
                     return;
                 }
-                Helper.msg(player, player1, Arrays.toString(args));
+                Helper.msg(player, player1, Helper.stringlistToString(args, 0));
             } else {
                 player.sendMessage(Helper.Colors(Helper.prefix + " &cUsage: /r <message>"));
             }
