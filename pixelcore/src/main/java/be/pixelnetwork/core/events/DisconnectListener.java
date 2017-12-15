@@ -10,7 +10,7 @@ public class DisconnectListener implements Listener {
 
     public DisconnectListener(Main main) {
     }
-    MySQL mySQL = new MySQL();
+    private MySQL mySQL = new MySQL();
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
