@@ -40,13 +40,10 @@ public class InventoryListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClicked(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        p.sendMessage("------------called--------------");
         if (e.getClickedInventory() != null) {
-            p.sendMessage("notnull");
             Inventory clicked = e.getClickedInventory();
             if (p.getOpenInventory() != null)
                 if (p.getOpenInventory().getTitle().equalsIgnoreCase(Commandtime.timeinv.getTitle()) && clicked == p.getInventory()) {
-                    p.sendMessage("cancelled by 1");
                     e.setCancelled(true);
                 }
             if (clicked.equals(p.getInventory()) && armorsee.getSpectators().containsValue(p)) {
