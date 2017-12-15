@@ -1,34 +1,30 @@
 package me.toxicmushroom.pixelbungeecore.dbs;
 
-import me.toxicmushroom.pixelbungeecore.PixelCore;
+import me.toxicmushroom.pixelbungeecore.Config;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.config.Configuration;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class MySQL {
     private Connection con;
-    private String HOST, DATABASE, USER, PASSWORD;
-    public void connect(String host, String database, String user, String password) {
-        HOST = host;
-        DATABASE = database;
-        USER = user;
-        PASSWORD = password;
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + database + "?autoReconnect=true", user, password);
-            System.out.println("[MySQL] has connected");
-        } catch (SQLException e) {
-            System.out.println("[MySQL] did not connect error: " + e.getMessage());
+    public MySQL() {
+        if (con == null) {
+            connect();
         }
     }
+
     private void connect() {
+        Configuration config = Config.configuration;
         try {
-            con = DriverManager.getConnection("jdbc:mysql://" + HOST + ":3306/" + DATABASE + "?autoReconnect=true", USER, PASSWORD);
+            con = DriverManager.getConnection("jdbc:mysql://" + config.getString("mysql.ipadress") + ":3306/" + config.getString("mysql.database") + "?autoReconnect=true",
+                    config.getString("mysql.username"), config.getString("mysql.password"));
             System.out.println("[MySQL] has connected");
         } catch (SQLException e) {
             System.out.println("[MySQL] did not connect error: " + e.getMessage());
         }
     }
+
     public void close() {
         try {
             if (this.con != null) {
@@ -39,6 +35,7 @@ public class MySQL {
             System.out.println("[MySQL] did not disconnect proparily error:" + e.getMessage());
         }
     }
+
     public void update(String qry) {
         try {
             Statement st = this.con.createStatement();
@@ -49,6 +46,7 @@ public class MySQL {
             System.err.println(e);
         }
     }
+
     private ResultSet query(String qry) {
         ResultSet rs = null;
         try {
@@ -62,8 +60,9 @@ public class MySQL {
     }
 
     public String getPrimairyGroup(ProxiedPlayer p) {
+        if (con == null) connect();
         try {
-            PreparedStatement primarygroup = con.prepareStatement("SELECT primary_group FROM luckperms_players WHERE uuid= ?");
+            PreparedStatement primarygroup = con.prepareStatement("SELECT primary_group FROM luckperms_players WHERE uuid=?");
             primarygroup.setString(1, p.getUniqueId().toString());
             ResultSet rs = primarygroup.executeQuery();
             if (rs.next()) return rs.getString("primary_group");
@@ -72,7 +71,9 @@ public class MySQL {
         }
         return "default";
     }
+
     public boolean isVanishedPlayer(ProxiedPlayer p) {
+        if (con == null) connect();
         try {
             PreparedStatement isvanished = con.prepareStatement("SELECT * FROM vanished WHERE UUID=?");
             isvanished.setString(1, p.getUniqueId().toString());
