@@ -10,11 +10,12 @@ public class DisconnectListener implements Listener {
 
     public DisconnectListener(Main main) {
     }
+    MySQL mySQL = new MySQL();
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
-        if (MySQL.isVanishedPlayer(e.getPlayer())) {
-            MySQL.removeVanishedPlayer(e.getPlayer());
+        if (mySQL.isVanishedPlayer(e.getPlayer())) {
+            mySQL.removeVanishedPlayer(e.getPlayer());
         }
     }
 }

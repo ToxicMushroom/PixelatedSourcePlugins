@@ -38,7 +38,7 @@ public class InventoryListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInventoryClick(InventoryClickEvent e) {
+    public void onInventoryClicked(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
         p.sendMessage("------------called--------------");
         if (e.getClickedInventory() != null) {

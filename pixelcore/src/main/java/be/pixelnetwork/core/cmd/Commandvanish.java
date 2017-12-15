@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class Commandvanish {
 
+    MySQL mySQL = new MySQL();
     public static ArrayList<Player> vanished = new ArrayList<>();
     public void execute(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
@@ -26,7 +27,7 @@ public class Commandvanish {
                     p.setAllowFlight(true);
                     p.setFlying(true);
                     vanished.add(p);
-                    MySQL.addVanishedPlayer(p);
+                    mySQL.addVanishedPlayer(p);
                     p.sendMessage(Helpers.prefix + Helpers.Colors(" &3you are now hidden"));
                 } else {
                     for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -35,7 +36,7 @@ public class Commandvanish {
                     p.setAllowFlight(false);
                     p.setFlying(false);
                     vanished.remove(p);
-                    MySQL.removeVanishedPlayer(p);
+                    mySQL.removeVanishedPlayer(p);
                     p.sendMessage(Helpers.prefix + Helpers.Colors(" &3your are now unhidden"));
                 }
             }

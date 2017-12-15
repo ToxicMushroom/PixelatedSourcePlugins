@@ -49,7 +49,7 @@ public class MySQL {
             System.err.println(e);
         }
     }
-    public ResultSet query(String qry) {
+    private ResultSet query(String qry) {
         ResultSet rs = null;
         try {
             Statement st = this.con.createStatement();
@@ -60,25 +60,27 @@ public class MySQL {
         }
         return rs;
     }
-    public static String getPrimairyGroup(ProxiedPlayer p) {
-        ResultSet rs = PixelCore.mySQL.query("SELECT primary_group FROM luckperms_players WHERE uuid= '" + p.getUniqueId() + "'");
+
+    public String getPrimairyGroup(ProxiedPlayer p) {
         try {
+            PreparedStatement primarygroup = con.prepareStatement("SELECT primary_group FROM luckperms_players WHERE uuid= ?");
+            primarygroup.setString(1, p.getUniqueId().toString());
+            ResultSet rs = primarygroup.executeQuery();
             if (rs.next()) return rs.getString("primary_group");
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return "default";
     }
-    public static boolean isVanishedPlayer(ProxiedPlayer p) {
-        ResultSet rs = PixelCore.mySQL.query("SELECT FROM vanished WHERE UUID= '" + p.getUniqueId() + "'");
-        boolean ivp = false;
+    public boolean isVanishedPlayer(ProxiedPlayer p) {
         try {
-            while (rs.next()) {
-                ivp = true;
-            }
-        } catch (SQLException ignored) {
-            ignored.printStackTrace();
+            PreparedStatement isvanished = con.prepareStatement("SELECT * FROM vanished WHERE UUID=?");
+            isvanished.setString(1, p.getUniqueId().toString());
+            ResultSet rs = isvanished.executeQuery();
+            if (rs.next()) return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return ivp;
+        return false;
     }
 }

@@ -70,24 +70,35 @@ public class MySQL {
         return rs;
     }
 
-    public static void addVanishedPlayer(Player p) {
-        Main.mySQL.update("INSERT INTO vanished (name, UUID) VALUES ('" + p.getName() + "', '" + p.getUniqueId().toString() + "')");
-    }
-
-    public static void removeVanishedPlayer(Player p) {
-        Main.mySQL.update("DELETE FROM vanished WHERE UUID= '" + p.getUniqueId().toString() + "';");
-    }
-
-    public static boolean isVanishedPlayer(Player p) {
-        ResultSet rs = Main.mySQL.query("SELECT FROM vanished WHERE UUID= '" + p.getUniqueId().toString() + "'");
-        boolean ivp = false;
+    public void addVanishedPlayer(Player p) {
         try {
-            while (rs.next()) {
-                ivp = true;
-            }
+            PreparedStatement addvanished = con.prepareStatement("INSERT INTO vanished (name, UUID) VALUES (?, ?)");
+            addvanished.setString(1, p.getName());
+            addvanished.setString(2, p.getUniqueId().toString());
+            addvanished.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeVanishedPlayer(Player p) {
+        try {
+            PreparedStatement removevanished = con.prepareStatement("DELETE FROM vanished WHERE UUID= ?");
+            removevanished.setString(1, p.getUniqueId().toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isVanishedPlayer(Player p) {
+        try {
+            PreparedStatement isvanished = con.prepareStatement("SELECT * FROM vanished WHERE UUID=?");
+            isvanished.setString(1, p.getUniqueId().toString());
+            ResultSet rs = isvanished.executeQuery();
+            if (rs.next()) return true;
         } catch (SQLException ignored) {
             ignored.printStackTrace();
         }
-        return ivp;
+        return false;
     }
 }

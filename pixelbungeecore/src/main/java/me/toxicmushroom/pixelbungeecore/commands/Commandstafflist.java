@@ -15,19 +15,20 @@ public class Commandstafflist extends Command {
         super(name);
     }
 
+    private MySQL mySQL = new MySQL();
+
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
             HashMap<String, String> rankandcolors = Helper.staffGroupNames;
             for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
-                String primarygroup = MySQL.getPrimairyGroup(p);
+                String primarygroup = mySQL.getPrimairyGroup(p);
                 player.sendMessage(Helper.Colors(Helper.prefix + " &b&l-=+ Online Staff +=-"));
-                if (MySQL.isVanishedPlayer(p)) {
+                if (mySQL.isVanishedPlayer(p)) {
                     if (player.hasPermission(Helper.permission + "vanish.see")) {
-                        if (p.isConnected() && rankandcolors.get(primarygroup) != null) {
+                        if (p.isConnected() && rankandcolors.get(primarygroup) != null)
                             player.sendMessage(Helper.Colors(rankandcolors.get(primarygroup) + primarygroup + " &r" + p.getName() + " &6in: " + p.getServer().getInfo().getName()));
-                        }
                     }
                 } else {
                     player.sendMessage(Helper.Colors(rankandcolors.get(primarygroup) + primarygroup + " &r" + p.getName() + " &6in: " + p.getServer().getInfo().getName()));
