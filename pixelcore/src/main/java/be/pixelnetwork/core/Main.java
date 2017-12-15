@@ -27,7 +27,7 @@ public class Main extends JavaPlugin implements Listener, TabCompleter {
     private static Permission perms = null;
     private static Chat chat = null;
     private FileConfiguration config = getConfig();
-    public static MySQL mySQL = new MySQL();
+    private static MySQL mySQL;
 
     public static Main getInstance() {
         return plugin;
@@ -113,7 +113,7 @@ public class Main extends JavaPlugin implements Listener, TabCompleter {
         getCommand("twitter").setExecutor(commands);
         getCommand("yt").setExecutor(commands);
         getCommand("nick").setExecutor(commands);
-        mySQL.connect(config.getString("mysql.ipadress"), config.getString("mysql.database"), config.getString("mysql.username"), config.getString("mysql.password"));
+        mySQL = new MySQL();
         pm.registerEvents(this, this);
         pm.registerEvents(new DamageEvent(this), this);
         pm.registerEvents(new InventoryListener(this), this);
