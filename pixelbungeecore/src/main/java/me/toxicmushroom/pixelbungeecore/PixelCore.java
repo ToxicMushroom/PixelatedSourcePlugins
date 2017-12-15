@@ -2,11 +2,13 @@ package me.toxicmushroom.pixelbungeecore;
 
 import me.toxicmushroom.pixelbungeecore.commands.*;
 import me.toxicmushroom.pixelbungeecore.dbs.MySQL;
+import me.toxicmushroom.pixelbungeecore.events.JoinEvent;
+import me.toxicmushroom.pixelbungeecore.events.LeaveEvent;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 
 public class PixelCore extends Plugin {
-    public static MySQL mySQL = new MySQL();
+    private static MySQL mySQL = new MySQL();
     private static PixelCore instance;
     public static PixelCore getInstance() {
         return instance;
@@ -19,6 +21,9 @@ public class PixelCore extends Plugin {
         mySQL.connect(config.getString("mysql.ipadress"), config.getString("mysql.database"), config.getString("mysql.username"), config.getString("mysql.password"));
         Config.saveConfig();
         Helper.initstaffGroups();
+        getProxy().getPluginManager().registerListener(this, new JoinEvent());
+        getProxy().getPluginManager().registerListener(this, new LeaveEvent());
+        getProxy().getPluginManager().registerCommand(this, new Commandsc("sc"));
         getProxy().getPluginManager().registerCommand(this, new Commandping("ping"));
         getProxy().getPluginManager().registerCommand(this, new Commandmsg("msg"));
         getProxy().getPluginManager().registerCommand(this, new Commandreply("reply"));
