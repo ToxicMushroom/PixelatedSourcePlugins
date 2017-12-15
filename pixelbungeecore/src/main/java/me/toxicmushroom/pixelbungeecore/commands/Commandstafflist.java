@@ -22,9 +22,9 @@ public class Commandstafflist extends Command {
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
             HashMap<String, String> rankandcolors = Helper.staffGroupNames;
+            player.sendMessage(Helper.Colors(Helper.prefix + " &b&l-=+ Online Staff +=-"));
             for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
                 String primarygroup = mySQL.getPrimairyGroup(p);
-                player.sendMessage(Helper.Colors(Helper.prefix + " &b&l-=+ Online Staff +=-"));
                 if (mySQL.isVanishedPlayer(p)) {
                     if (player.hasPermission(Helper.permission + "vanish.see")) {
                         if (p.isConnected() && rankandcolors.get(primarygroup) != null)
