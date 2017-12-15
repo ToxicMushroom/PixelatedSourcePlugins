@@ -1,19 +1,15 @@
 package me.toxicmushroom.pixelhub.events;
 
 import me.toxicmushroom.pixelhub.Helper;
-import me.toxicmushroom.pixelhub.Inventories;
 import me.toxicmushroom.pixelhub.Menu;
 import me.toxicmushroom.pixelhub.PixelHub;
 import net.minecraft.server.v1_8_R3.EnumParticle;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class ItemClickEvent implements Listener {
@@ -31,63 +27,75 @@ public class ItemClickEvent implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
-        String pn = player.getName();
-        ItemStack clicked = event.getCurrentItem();
-        Inventory inventory = event.getInventory();
-        if (inventory.getName().equalsIgnoreCase(Helper.Colors("&c&lParticles"))) {
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (e.getClickedInventory() == null) return;
+        Player p = (Player) e.getWhoClicked();
+        ItemStack clicked = e.getCurrentItem();
+        if (p.getOpenInventory().getTitle().equalsIgnoreCase(Helper.Colors("&c&lParticles"))) {
+            if (e.getClickedInventory().equals(p.getInventory())) {
+                e.setCancelled(true);
+                return;
+            }
+            String id = p.getUniqueId().toString();
             switch (clicked.getType()) {
                 case APPLE:
-                    config.set("particles." + pn + ".selected", EnumParticle.HEART.toString());
-                    event.setCancelled(true);
-                    player.sendMessage("Je hebt hartjes geselecteerd!");
+                    config.set("particles." + id + ".selected", EnumParticle.HEART.toString());
+                    e.setCancelled(true);
+                    p.sendMessage("Je hebt hartjes geselecteerd!");
                     break;
                 case FLINT_AND_STEEL:
-                    config.set("particles." + pn + ".selected", EnumParticle.FLAME.toString());
-                    event.setCancelled(true);
-                    player.sendMessage("Je hebt vuurtjes geselecteerd!");
+                    config.set("particles." + id + ".selected", EnumParticle.FLAME.toString());
+                    e.setCancelled(true);
+                    p.sendMessage("Je hebt vuurtjes geselecteerd!");
                     break;
                 case LAVA_BUCKET:
-                    config.set("particles." + pn + ".selected", EnumParticle.DRIP_LAVA.toString());
-                    event.setCancelled(true);
-                    player.sendMessage("Je hebt lava druppels geselecteerd!");
+                    config.set("particles." + id + ".selected", EnumParticle.DRIP_LAVA.toString());
+                    e.setCancelled(true);
+                    p.sendMessage("Je hebt lava druppels geselecteerd!");
                     break;
                 case WATER_BUCKET:
-                    config.set("particle." + pn + ".selected", EnumParticle.DRIP_WATER.toString());
-                    event.setCancelled(true);
-                    player.sendMessage("Je hebt water druppels geselecteerd!");
+                    config.set("particles." + id + ".selected", EnumParticle.DRIP_WATER.toString());
+                    e.setCancelled(true);
+                    p.sendMessage("Je hebt water druppels geselecteerd!");
                     break;
                 case STICK:
-                    config.set("particle." + pn + ".selected", EnumParticle.CRIT_MAGIC.toString());
-                    event.setCancelled(true);
-                    player.sendMessage("Je hebt een wolkje melk geselecteerd!");
+                    config.set("particles." + id + ".selected", EnumParticle.CRIT_MAGIC.toString());
+                    e.setCancelled(true);
+                    p.sendMessage("Je hebt magic the gathering geselecteerd!");
                     break;
                 case MILK_BUCKET:
-                    config.set("particle." + pn + ".selected", EnumParticle.CLOUD.toString());
-                    event.setCancelled(true);
-                    player.sendMessage("Je hebt magic the gathering geselecteerd!");
+                    config.set("particles." + id + ".selected", EnumParticle.CLOUD.toString());
+                    e.setCancelled(true);
+                    p.sendMessage("Je hebt een wolkje melk geselecteerd!");
                     break;
                 case WOOL:
                     if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&aParticles AAN"))) {
-                        config.set("particle." + pn + ".show", false);
-                        event.setCancelled(true);
-                        player.sendMessage(Helper.Colors(Helper.prefix + " &3Particles disabled!"));
-                        player.closeInventory();
+                        config.set("particles." + id + ".show", false);
+                        e.setCancelled(true);
+                        p.sendMessage(Helper.Colors(Helper.prefix + " &3Particles disabled!"));
+                        p.closeInventory();
                     } else if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&4Particles UIT"))) {
-                        config.set("particle." + pn + ".show", true);
-                        event.setCancelled(true);
-                        player.sendMessage(Helper.Colors(Helper.prefix + " &3Particles enabled!"));
-                        player.closeInventory();
+                        config.set("particles." + id + ".show", true);
+                        e.setCancelled(true);
+                        p.sendMessage(Helper.Colors(Helper.prefix + " &3Particles enabled!"));
+                        p.closeInventory();
                     }
                     break;
                 default:
+                    e.setCancelled(true);
                     break;
             }
             saveConfig();
-        } else if (inventory.getName().equalsIgnoreCase(Helper.Colors("&3&lHome")))
-            if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&c&lParticles")))
-                menus.openMenu(player, "particles");
+        } else if (p.getOpenInventory().getTitle().equalsIgnoreCase(Helper.Colors("&3&lHome"))) {
+            if (e.getClickedInventory().equals(p.getInventory())) {
+                e.setCancelled(true);
+                return;
+            }
+            if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&c&lParticles"))) {
+                e.setCancelled(true);
+                menus.openMenu(p, "particles");
+            }
+        }
     }
 
     private void saveConfig() {

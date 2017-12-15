@@ -9,5 +9,4 @@ public class Helper {
     public static String Colors(String tocolorize) {
         return ChatColor.translateAlternateColorCodes('&', tocolorize);
     }
-
 }
