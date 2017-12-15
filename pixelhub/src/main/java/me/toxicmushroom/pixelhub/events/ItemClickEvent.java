@@ -4,6 +4,7 @@ import me.toxicmushroom.pixelhub.Helper;
 import me.toxicmushroom.pixelhub.Menu;
 import me.toxicmushroom.pixelhub.PixelHub;
 import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -69,12 +70,12 @@ public class ItemClickEvent implements Listener {
                     p.sendMessage("Je hebt een wolkje melk geselecteerd!");
                     break;
                 case WOOL:
-                    if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&aParticles AAN"))) {
+                    if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&aParticles on!"))) {
                         config.set("particles." + id + ".show", false);
                         e.setCancelled(true);
                         p.sendMessage(Helper.Colors(Helper.prefix + " &3Particles disabled!"));
                         p.closeInventory();
-                    } else if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&4Particles UIT"))) {
+                    } else if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&4Particles off!"))) {
                         config.set("particles." + id + ".show", true);
                         e.setCancelled(true);
                         p.sendMessage(Helper.Colors(Helper.prefix + " &3Particles enabled!"));
@@ -91,9 +92,11 @@ public class ItemClickEvent implements Listener {
                 e.setCancelled(true);
                 return;
             }
-            if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&c&lParticles"))) {
-                e.setCancelled(true);
-                menus.openMenu(p, "particles");
+            if (clicked.getType() != Material.AIR) {
+                if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&c&lParticles"))) {
+                    e.setCancelled(true);
+                    menus.openMenu(p, "particles");
+                }
             }
         }
     }

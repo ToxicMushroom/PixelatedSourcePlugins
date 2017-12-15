@@ -46,7 +46,7 @@ public class JoinEvent implements Listener {
             public void run() {
                 EnumParticle e = null;
                 if (!p.isOnline()) cancel();
-                if (config.getBoolean("particle." + id + ".show")) {
+                if (config.getBoolean("particles." + id + ".show")) {
                     switch (config.getString("particles." + id + ".selected")) {
                         case "FLAME":
                             e = EnumParticle.FLAME;
