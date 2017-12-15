@@ -8,7 +8,6 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 
 public class PixelCore extends Plugin {
-    private static MySQL mySQL = new MySQL();
     private static PixelCore instance;
     public static PixelCore getInstance() {
         return instance;
@@ -17,8 +16,6 @@ public class PixelCore extends Plugin {
     public void onEnable() {
         instance = this;
         Config.setup();
-        Configuration config = Config.configuration;
-        mySQL.connect(config.getString("mysql.ipadress"), config.getString("mysql.database"), config.getString("mysql.username"), config.getString("mysql.password"));
         Config.saveConfig();
         Helper.initstaffGroups();
         getProxy().getPluginManager().registerListener(this, new JoinEvent());
