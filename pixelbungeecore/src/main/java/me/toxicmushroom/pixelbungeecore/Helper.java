@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class Helper {
 
@@ -34,12 +35,15 @@ public class Helper {
     }
     public static HashMap<String, String> staffGroupNames = new HashMap<>();
     public static void initstaffGroups() {
+        PixelCore.getInstance().getProxy().getScheduler().schedule(PixelCore.getInstance(), () -> {
         List<String> staffgrouplist = Config.configuration.getStringList("staffgroupnames");
         for (String s : staffgrouplist) {
-            if (Config.configuration.getString("staffgroupcolors." + s) != null)
+            if (Config.configuration.getString("staffgroupcolors." + s) != null) {
                 staffGroupNames.put(s, Config.configuration.getString("staffgroupcolors." + s));
+            }
             else PixelCore.getInstance().getLogger().info("error: code-69");
         }
+        }, 0, 1, TimeUnit.MINUTES);
     }
 
     public static String arrayToString(ArrayList<String> toconvert) {
