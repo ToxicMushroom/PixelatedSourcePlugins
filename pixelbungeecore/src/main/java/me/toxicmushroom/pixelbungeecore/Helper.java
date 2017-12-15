@@ -14,11 +14,12 @@ import java.util.UUID;
 public class Helper {
 
     public static String permission = "PixelNetwork";
-    private static HashMap<UUID, UUID> conversations = new HashMap();
+    private static HashMap<UUID, UUID> conversations = new HashMap<>();
     public static String prefix = "&f[&b&lP&6&lS&f]";
     public static BaseComponent[] Colors(String colorize) {
         return new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', colorize)).create();
     }
+    public static ArrayList<ProxiedPlayer> staff = new ArrayList<>();
     public static void msg(ProxiedPlayer paramProxiedPlayer1, ProxiedPlayer paramProxiedPlayer2, String paramString) {
         paramProxiedPlayer2.sendMessage(Helper.Colors("&7[&a" + paramProxiedPlayer1.getName() + " &7-> &aYou&7] " + paramString));
         paramProxiedPlayer1.sendMessage(Helper.Colors("&7[&aYou &7-> &a" + paramProxiedPlayer2.getName() + "&7] " + paramString));
