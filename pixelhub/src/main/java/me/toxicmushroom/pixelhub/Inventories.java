@@ -19,7 +19,7 @@ import java.util.Collections;
 public class Inventories {
 
 
-    private FileConfiguration config = PixelHub.getInstace().getConfig();
+    private FileConfiguration config = PixelHub.getInstance().getConfig();
 
     public Inventory home() {
         Inventory home = Bukkit.createInventory(null, 36, Helper.Colors("&3&lHome"));
@@ -69,6 +69,12 @@ public class Inventories {
         meta6.setDisplayName(ChatColor.WHITE + "Milky way");
         item6.setItemMeta(meta6);
         particles.setItem(13, item6);
+
+        ItemStack item7 = new ItemStack(Material.NOTE_BLOCK);
+        ItemMeta meta7 = item7.getItemMeta();
+        meta7.setDisplayName(ChatColor.GOLD + "Music notes");
+        item7.setItemMeta(meta7);
+        particles.setItem(14, item7);
         if (config.getBoolean("particles." + p.getUniqueId() + ".show")) {
             ItemStack item70 = new ItemStack(Material.WOOL, 1, (short) 5);
             ItemMeta meta70 = item70.getItemMeta();

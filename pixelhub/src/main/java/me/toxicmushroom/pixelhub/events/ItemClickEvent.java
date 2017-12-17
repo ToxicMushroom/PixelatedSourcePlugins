@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemClickEvent implements Listener {
 
-    private FileConfiguration config = PixelHub.getInstace().getConfig();
+    private FileConfiguration config = PixelHub.getInstance().getConfig();
     private Menu menus = new Menu();
 
     @EventHandler
@@ -42,33 +42,37 @@ public class ItemClickEvent implements Listener {
                 case APPLE:
                     config.set("particles." + id + ".selected", EnumParticle.HEART.toString());
                     e.setCancelled(true);
-                    p.sendMessage("Je hebt hartjes geselecteerd!");
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lHearths&3!"));
                     break;
                 case FLINT_AND_STEEL:
                     config.set("particles." + id + ".selected", EnumParticle.FLAME.toString());
                     e.setCancelled(true);
-                    p.sendMessage("Je hebt vuurtjes geselecteerd!");
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lFlames&3!"));
                     break;
                 case LAVA_BUCKET:
                     config.set("particles." + id + ".selected", EnumParticle.DRIP_LAVA.toString());
                     e.setCancelled(true);
-                    p.sendMessage("Je hebt lava druppels geselecteerd!");
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lLava Drips&3!"));
                     break;
                 case WATER_BUCKET:
                     config.set("particles." + id + ".selected", EnumParticle.DRIP_WATER.toString());
                     e.setCancelled(true);
-                    p.sendMessage("Je hebt water druppels geselecteerd!");
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lWater Drips&3!"));
                     break;
                 case STICK:
                     config.set("particles." + id + ".selected", EnumParticle.CRIT_MAGIC.toString());
                     e.setCancelled(true);
-                    p.sendMessage("Je hebt magic the gathering geselecteerd!");
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lWitch Crits&3!"));
                     break;
                 case MILK_BUCKET:
                     config.set("particles." + id + ".selected", EnumParticle.CLOUD.toString());
                     e.setCancelled(true);
-                    p.sendMessage("Je hebt een wolkje melk geselecteerd!");
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lClouds&3!"));
                     break;
+                case NOTE_BLOCK:
+                    config.set("particles." + id + ".selected", EnumParticle.NOTE.toString());
+                    e.setCancelled(true);
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lMusic notes &3!"));
                 case WOOL:
                     if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Helper.Colors("&aParticles on!"))) {
                         config.set("particles." + id + ".show", false);
@@ -102,6 +106,6 @@ public class ItemClickEvent implements Listener {
     }
 
     private void saveConfig() {
-        PixelHub.getInstace().saveConfig();
+        PixelHub.getInstance().saveConfig();
     }
 }

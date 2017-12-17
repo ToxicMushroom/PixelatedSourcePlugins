@@ -2,6 +2,7 @@ package me.toxicmushroom.pixelhub.events;
 
 import me.toxicmushroom.pixelhub.Helper;
 import me.toxicmushroom.pixelhub.PixelHub;
+import me.toxicmushroom.pixelhub.dbs.MySQL;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
@@ -21,7 +22,8 @@ import java.util.Collection;
 
 public class JoinEvent implements Listener {
 
-    private FileConfiguration config = PixelHub.getInstace().getConfig();
+    private FileConfiguration config = PixelHub.getInstance().getConfig();
+    private MySQL mySQL = new MySQL();
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
@@ -33,9 +35,11 @@ public class JoinEvent implements Listener {
         selector.setItemMeta(mselecotr);
         if (!p.getInventory().contains(selector))
             p.getInventory().setItem(9, selector);
-        if (!PixelHub.getInstace().getConfig().isConfigurationSection("particles." + p.getUniqueId() + ".show"))
-            PixelHub.getInstace().getConfig().set("particles." + p.getUniqueId() + ".show", false);
-        PixelHub.getInstace().saveConfig();
+        if (!config.isConfigurationSection("particles." + p.getUniqueId() + ".show"))
+            config.set("particles." + p.getUniqueId() + ".show", false);
+        if (!config.isConfigurationSection("particles." + p.getUniqueId().toString() + ".selected"))
+            config.set("particles." + p.getUniqueId() + ".selected", "FLAME");
+        PixelHub.getInstance().saveConfig();
         repeat(p);
     }
 
@@ -43,6 +47,7 @@ public class JoinEvent implements Listener {
         String id = p.getUniqueId().toString();
         new BukkitRunnable() {
             int i = 1;
+
             public void run() {
                 EnumParticle e = null;
                 if (!p.isOnline()) cancel();
@@ -66,49 +71,60 @@ public class JoinEvent implements Listener {
                         case "CLOUD":
                             e = EnumParticle.CLOUD;
                             break;
+                        case "NOTE":
+                            e = EnumParticle.NOTE;
                         default:
                             break;
                     }
-                    switch (i) {
-                        case 1:
-                            spawnParticle(e, p.getLocation().add(0.5D, 2.0D, 0.0D), Bukkit.getOnlinePlayers());
-                            break;
-                        case 2:
-                            spawnParticle(e, p.getLocation().add(0.4D, 2.0D, 0.4D), Bukkit.getOnlinePlayers());
-                            break;
-                        case 3:
-                            spawnParticle(e, p.getLocation().add(0.0D, 2.0D, 0.5D), Bukkit.getOnlinePlayers());
-                            break;
-                        case 4:
-                            spawnParticle(e, p.getLocation().add(-0.4D, 2.0D, 0.4D), Bukkit.getOnlinePlayers());
-                            break;
-                        case 5:
-                            spawnParticle(e, p.getLocation().add(-0.5D, 2.0D, 0.0D), Bukkit.getOnlinePlayers());
-                            break;
-                        case 6:
-                            spawnParticle(e, p.getLocation().add(-0.4D, 2.0D, -0.4D), Bukkit.getOnlinePlayers());
-                            break;
-                        case 7:
-                            spawnParticle(e, p.getLocation().add(0.0D, 2.0D, -0.5D), Bukkit.getOnlinePlayers());
-                            break;
-                        case 8:
-                            spawnParticle(e, p.getLocation().add(0.4D, 2.0D, -0.4D), Bukkit.getOnlinePlayers());
-                            break;
-                        default:
-                            i = 0;
-                            break;
-                    }
+                    if (Helper.time.get(p.getUniqueId().toString()) == 0) {
+                        switch (i) {
+                            case 1:
+                                spawnParticle(e, p.getLocation().add(0.5D, 2.0D, 0.0D), p);
+                                break;
+                            case 2:
+                                spawnParticle(e, p.getLocation().add(0.4D, 2.0D, 0.4D), p);
+                                break;
+                            case 3:
+                                spawnParticle(e, p.getLocation().add(0.0D, 2.0D, 0.5D), p);
+                                break;
+                            case 4:
+                                spawnParticle(e, p.getLocation().add(-0.4D, 2.0D, 0.4D), p);
+                                break;
+                            case 5:
+                                spawnParticle(e, p.getLocation().add(-0.5D, 2.0D, 0.0D), p);
+                                break;
+                            case 6:
+                                spawnParticle(e, p.getLocation().add(-0.4D, 2.0D, -0.4D), p);
+                                break;
+                            case 7:
+                                spawnParticle(e, p.getLocation().add(0.0D, 2.0D, -0.5D), p);
+                                break;
+                            case 8:
+                                spawnParticle(e, p.getLocation().add(0.4D, 2.0D, -0.4D), p);
+                                break;
+                            default:
+                                i = 0;
+                                break;
+                        }
+                    } else spawnParticle(e, p.getLocation(), p);
+                    if (Helper.time.get(p.getUniqueId().toString()) != 0)
+                        Helper.time.put(p.getUniqueId().toString(), Helper.time.get(p.getUniqueId().toString()) - 0.5);
                     i++;
                 }
             }
-        }.runTaskTimerAsynchronously(PixelHub.getInstace(), 1, 3);
+        }.runTaskTimerAsynchronously(PixelHub.getInstance(), 1, 3);
     }
 
-    private void spawnParticle(EnumParticle particle, Location loc, Collection<? extends Player> collection) {
+    private void spawnParticle(EnumParticle particle, Location loc, Player p) {
         PacketPlayOutWorldParticles pp = new PacketPlayOutWorldParticles(particle, true,
                 (float) loc.getX(), (float) loc.getY(), (float) loc.getZ(), 0.0F, 0.0F, 0.0F, 0.0F, 1);
-        for (Player p : collection) {
-            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pp);
+        if (mySQL.isVanishedPlayer(p))
+            for (Player p2 : Bukkit.getOnlinePlayers()) {
+                if (p2.hasPermission(Helper.perm + "seevanished"))
+                    ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(pp);
+            }
+        else for (Player p2 : Bukkit.getOnlinePlayers()) {
+            ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(pp);
         }
     }
 }
