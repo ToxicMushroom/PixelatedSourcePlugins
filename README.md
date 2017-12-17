@@ -1,4 +1,4 @@
 # PixelatedSourcePlugins
-public plugins of pixelatedsurce made by ToxicMushoom
-These are two big plugins I'm working on atm :).
+public plugins of pixelatedsource made by ToxicMushoom.
+I will post most of my plugins here.
 
