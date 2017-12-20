@@ -35,9 +35,9 @@ public class JoinEvent implements Listener {
         selector.setItemMeta(mselecotr);
         if (!p.getInventory().contains(selector))
             p.getInventory().setItem(9, selector);
-        if (!config.isConfigurationSection("particles." + p.getUniqueId() + ".show"))
+        if (config.get("particles." + p.getUniqueId() + ".show") == null)
             config.set("particles." + p.getUniqueId() + ".show", false);
-        if (!config.isConfigurationSection("particles." + p.getUniqueId().toString() + ".selected"))
+        if (config.get("particles." + p.getUniqueId().toString() + ".selected") == null)
             config.set("particles." + p.getUniqueId() + ".selected", "FLAME");
         PixelHub.getInstance().saveConfig();
         repeat(p);
@@ -73,6 +73,9 @@ public class JoinEvent implements Listener {
                             break;
                         case "NOTE":
                             e = EnumParticle.NOTE;
+                            break;
+                        case "SPELL_WITCH":
+                            e = EnumParticle.SPELL_WITCH;
                         default:
                             break;
                     }
