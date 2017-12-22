@@ -39,6 +39,7 @@ public class JoinEvent implements Listener {
             config.set("particles." + p.getUniqueId() + ".show", false);
         if (config.get("particles." + p.getUniqueId().toString() + ".selected") == null)
             config.set("particles." + p.getUniqueId() + ".selected", "FLAME");
+        Helper.time.put(p.getUniqueId().toString(), 0.0);
         PixelHub.getInstance().saveConfig();
         repeat(p);
     }
@@ -115,7 +116,7 @@ public class JoinEvent implements Listener {
                     i++;
                 }
             }
-        }.runTaskTimerAsynchronously(PixelHub.getInstance(), 1, 3);
+        }.runTaskTimerAsynchronously(PixelHub.getInstance(), 1, 2);
     }
 
     private void spawnParticle(EnumParticle particle, Location loc, Player p) {
