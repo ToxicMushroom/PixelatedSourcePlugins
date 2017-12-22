@@ -71,6 +71,23 @@ public class ItemClickEvent implements Listener {
                 case DRAGON_EGG:
                     config.set("particles." + id + ".selected", EnumParticle.SPELL_WITCH.toString());
                     p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lWitch Magic&3!"));
+                    break;
+                case ENCHANTMENT_TABLE:
+                    config.set("particles." + id + ".selected", EnumParticle.ENCHANTMENT_TABLE.toString());
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lEnchaning Magic&3!"));
+                    break;
+                case REDSTONE:
+                    config.set("particles." + id + ".selected", EnumParticle.REDSTONE.toString());
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lRedstone&3!"));
+                    break;
+                case EMERALD:
+                    config.set("particles." + id + ".selected", EnumParticle.VILLAGER_HAPPY.toString());
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lHappy Villager&3!"));
+                    break;
+                case COAL:
+                    config.set("particles." + id + ".selected", EnumParticle.VILLAGER_ANGRY.toString());
+                    p.sendMessage(Helper.Colors(Helper.prefix + " &3You've selected &6&lAngry Villager&3!"));
+                    break;
                 case WOOL:
                     if (config.getBoolean("particles." + id + ".show")) {
                         config.set("particles." + id + ".show", false);
