@@ -9,7 +9,9 @@ public class MoveEvent implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
-        if (e.getFrom().getBlock() != e.getTo().getBlock()) {
+        if (e.getFrom().getBlock().getX() != e.getTo().getBlock().getX() ||
+                e.getFrom().getBlock().getY() != e.getTo().getBlock().getY() ||
+                e.getFrom().getBlock().getZ() != e.getTo().getBlock().getZ()) {
             Helper.time.put(e.getPlayer().getUniqueId().toString(), 1.0);
         }
     }
