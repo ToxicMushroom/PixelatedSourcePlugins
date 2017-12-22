@@ -29,19 +29,23 @@ public class Inventories {
     }
 
     public Inventory particles(Player p) {
-        Inventory particles = Bukkit.createInventory(null, 18, Helper.Colors("&c&lParticles"));
+        Inventory particles = Bukkit.createInventory(null, 27, Helper.Colors("&c&lParticles"));
         particles.setItem(1, itemCrafter(Material.APPLE, 1, "&dLove", "Click here to select Hearths!", 0));
+        particles.setItem(2, itemCrafter(Material.ENCHANTMENT_TABLE, 1, "&k|&rMagic&k|", "Click here to select Enchanting particles!", 0));
         particles.setItem(3, itemCrafter(Material.FLINT_AND_STEEL, 1, "&cFire", "Click here to select Fire!", 0));
+        particles.setItem(4, itemCrafter(Material.REDSTONE, 1, "&2Color clouds", "Click here to select Redstone!", 0));
         particles.setItem(5, itemCrafter(Material.LAVA_BUCKET, 1, "&4Baklava", "Click here to select Lava Drips!", 0));
-        particles.setItem(7, itemCrafter(Material.WATER_BUCKET, 1, "&1Magikarp use splash", "Click here to select Water Drips!", 0));
+        particles.setItem(6, itemCrafter(Material.WATER_BUCKET, 1, "&1Magikarp use splash", "Click here to select Water Drips!", 0));
+        particles.setItem(7, itemCrafter(Material.EMERALD, 1, "&aHappy", "Click here to select Happy Villager", 0));
+        particles.setItem(8, itemCrafter(Material.COAL, 1, "&0Angry", "Click here to select Angry Villager", 0));
         particles.setItem(11, itemCrafter(Material.STICK, 1, "&5Witch Crits", "Click here to select Witch Crits!", 0));
         particles.setItem(13, itemCrafter(Material.MILK_BUCKET, 1, "&fMilky Way", "Click here to select Clouds!", 0));
         particles.setItem(14, itemCrafter(Material.NOTE_BLOCK, 1, "&aMusic Notes", "Click here to select Music Notes!", 0));
         particles.setItem(15, itemCrafter(Material.DRAGON_EGG, 1, "&5Dragon Breath", "Click here to select Dragon Breath!", 0));
         if (config.getBoolean("particles." + p.getUniqueId() + ".show"))
-            particles.setItem(9, itemCrafter(Material.WOOL, 1, "&aParticles enabled!", "Click here to disable particles.", 5));
+            particles.setItem(18, itemCrafter(Material.WOOL, 1, "&aParticles enabled!", "Click here to disable particles.", 5));
         else
-            particles.setItem(9, itemCrafter(Material.WOOL, 1, "&4Particles disabled!", "Click here to enable particles.", 14));
+            particles.setItem(18, itemCrafter(Material.WOOL, 1, "&4Particles disabled!", "Click here to enable particles.", 14));
         return particles;
     }
 
@@ -49,9 +53,9 @@ public class Inventories {
         ItemStack toreturn = data == 0 ? new ItemStack(material, amount) : new ItemStack(material, amount, (short) data);
         ItemMeta metareturn = toreturn.getItemMeta();
         if (displayname != null)
-            metareturn.setDisplayName(displayname);
+            metareturn.setDisplayName(Helper.Colors(displayname));
         if (lore != null)
-            metareturn.setLore(Collections.singletonList(lore));
+            metareturn.setLore(Collections.singletonList(Helper.Colors(lore)));
         toreturn.setItemMeta(metareturn);
         return toreturn;
     }
